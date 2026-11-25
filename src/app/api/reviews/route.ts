@@ -5,6 +5,12 @@ import {
   saveReview,
   validateReview,
 } from "@/lib/reviews";
+import { getClientIp, rateLimit } from "@/lib/rateLimit";
+
+// 5 reviews per hour per IP — real customers don't post more than that;
+// bots/spam scripts do.
+const REVIEW_LIMIT = 5;
+const REVIEW_WINDOW_MS = 60 * 60 * 1000;
 
 export async function GET() {
   const reviews = await getReviews();
@@ -12,6 +18,18 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const { allowed, retryAfterSeconds } = rateLimit(
+    `review:${getClientIp(req)}`,
+    REVIEW_LIMIT,
+    REVIEW_WINDOW_MS
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { ok: false, message: "Too many reviews submitted. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

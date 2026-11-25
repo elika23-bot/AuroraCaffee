@@ -75,7 +75,7 @@ function FlipUnit({
         <span className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-black/50" />
         <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-white/[0.06]" />
       </div>
-      <span className={`uppercase tracking-[0.12em] text-ink/40 ${sizes.label}`}>{label}</span>
+      <span className={`uppercase tracking-[0.12em] text-ink/62 ${sizes.label}`}>{label}</span>
     </div>
   );
 }

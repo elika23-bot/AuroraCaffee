@@ -39,6 +39,7 @@ yarn-error.log*
 
 # local runtime-generated data (e.g. submitted reviews), not source
 /data/*.json
+/data/backups/
 
 # typescript
 *.tsbuildinfo

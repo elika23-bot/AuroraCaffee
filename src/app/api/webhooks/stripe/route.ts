@@ -35,6 +35,11 @@ export async function POST(req: NextRequest) {
         const pickupName =
           session.custom_fields?.find((f) => f.key === "pickup_name")?.text?.value ?? null;
 
+        const paymentIntentId =
+          typeof session.payment_intent === "string"
+            ? session.payment_intent
+            : (session.payment_intent?.id ?? null);
+
         await saveOrder({
           id: session.id,
           items: lineItems.data.map((li) => ({
@@ -47,6 +52,7 @@ export async function POST(req: NextRequest) {
           customerEmail: session.customer_details?.email ?? null,
           status: "paid",
           createdAt: new Date().toISOString(),
+          paymentIntentId,
         });
       } catch (err) {
         console.error("[webhooks/stripe] failed to save order", err);

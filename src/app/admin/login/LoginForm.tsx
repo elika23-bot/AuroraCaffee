@@ -36,12 +36,12 @@ export default function LoginForm({ next }: { next: string }) {
       className="w-full max-w-sm rounded-[28px] bg-paper p-8 sm:p-10 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)]"
     >
       <p className="font-display text-2xl text-ink text-center">Aurora Cafe Admin</p>
-      <p className="mt-2 text-[13px] text-ink/55 text-center">
+      <p className="mt-2 text-[13px] text-ink/62 text-center">
         Sign in to manage orders and events.
       </p>
 
       <label className="mt-8 block">
-        <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+        <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
           Password
         </span>
         <input

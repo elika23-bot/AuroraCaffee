@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import { getMenu } from "@/lib/menu";
 
 // Both are variable fonts: leaving `weight` unset loads one file per style
 // that covers every weight, instead of a separate @font-face per weight.
@@ -37,14 +38,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const menu = await getMenu();
+
   return (
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <CartProvider>
+        <CartProvider menu={menu}>
           {children}
           <CartDrawer />
         </CartProvider>

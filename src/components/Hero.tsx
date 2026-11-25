@@ -11,7 +11,7 @@ export default function Hero() {
       className="relative overflow-hidden grain pt-28 pb-16 md:pt-36 md:pb-24"
     >
       <div className="hero-intro relative z-10 mx-auto max-w-6xl px-6">
-        <div className="flex items-center justify-between text-ink/40 page-mark">
+        <div className="flex items-center justify-between text-ink/62 page-mark">
           <span className="rounded-full border border-ink bg-paper/90 px-3 py-1">
             Est. 2019 — Neighborhood Roastery
           </span>

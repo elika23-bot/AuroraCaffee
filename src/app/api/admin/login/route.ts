@@ -5,8 +5,26 @@ import {
   createSessionToken,
   verifyPassword,
 } from "@/lib/adminSession";
+import { getClientIp, rateLimit } from "@/lib/rateLimit";
+
+// 5 attempts per 15 minutes per IP — slows a brute-force password guesser
+// to uselessness without getting in a real admin's way.
+const LOGIN_LIMIT = 5;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 
 export async function POST(req: NextRequest) {
+  const { allowed, retryAfterSeconds } = rateLimit(
+    `login:${getClientIp(req)}`,
+    LOGIN_LIMIT,
+    LOGIN_WINDOW_MS
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { ok: false, message: "Too many attempts. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
   const adminPassword = process.env.ADMIN_PASSWORD;
   const sessionSecret = process.env.ADMIN_SESSION_SECRET;
 

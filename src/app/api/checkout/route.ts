@@ -2,10 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { findMenuItem } from "@/lib/menu";
+import { getClientIp, rateLimit } from "@/lib/rateLimit";
 
 type CartLineInput = { id: string; quantity: number };
 
+// 20 checkout attempts per 10 minutes per IP — generous for genuine
+// retries, but stops scripted abuse (e.g. card-testing fraud patterns).
+const CHECKOUT_LIMIT = 20;
+const CHECKOUT_WINDOW_MS = 10 * 60 * 1000;
+
 export async function POST(req: NextRequest) {
+  const { allowed, retryAfterSeconds } = rateLimit(
+    `checkout:${getClientIp(req)}`,
+    CHECKOUT_LIMIT,
+    CHECKOUT_WINDOW_MS
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { ok: false, message: "Too many requests. Please try again in a few minutes." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
   if (!stripe) {
     console.error("[api/checkout] STRIPE_SECRET_KEY is not set");
     return NextResponse.json(
@@ -40,7 +58,7 @@ export async function POST(req: NextRequest) {
   // Look up every price server-side — never trust a price sent by the client.
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
   for (const line of lines) {
-    const item = findMenuItem(line.id);
+    const item = await findMenuItem(line.id);
     if (!item) {
       return NextResponse.json(
         { ok: false, message: "One of the items in your cart is no longer available." },

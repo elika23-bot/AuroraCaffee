@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { backupBeforeWrite } from "./dataBackup";
 
 export type Review = {
   id: string;
@@ -80,6 +81,7 @@ export async function saveReview(input: ReviewInput): Promise<Review> {
   };
 
   all.push(review);
+  await backupBeforeWrite(DATA_FILE);
   await fs.writeFile(DATA_FILE, JSON.stringify(all, null, 2), "utf-8");
   return review;
 }

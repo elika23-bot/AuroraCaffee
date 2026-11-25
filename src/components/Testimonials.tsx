@@ -139,7 +139,7 @@ export default function Testimonials() {
         <div className="mx-auto mt-3 h-px w-16 bg-ink/15" />
 
         {loadState === "loading" && (
-          <p className="mt-14 text-center text-[13px] text-ink/40">
+          <p className="mt-14 text-center text-[13px] text-ink/62">
             <span className="rounded-full bg-paper/90 px-4 py-1.5">
               Loading reviews…
             </span>
@@ -156,7 +156,7 @@ export default function Testimonials() {
 
         {loadState === "ready" && reviews.length === 0 && (
           <div className="mt-14 flex justify-center">
-            <p className="max-w-sm rounded-2xl bg-paper/90 px-6 py-4 text-center text-[14.5px] text-ink/55">
+            <p className="max-w-sm rounded-2xl bg-paper/90 px-6 py-4 text-center text-[14.5px] text-ink/62">
               No reviews yet — be the first to tell us about your visit.
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function Testimonials() {
                     <span className="block text-sm font-semibold text-ink">
                       {r.name}
                     </span>
-                    <span className="block text-[11px] uppercase tracking-[0.1em] text-ink/45">
+                    <span className="block text-[11px] uppercase tracking-[0.1em] text-ink/62">
                       {r.role ? r.role : timeAgo(r.createdAt)}
                     </span>
                   </span>
@@ -196,7 +196,7 @@ export default function Testimonials() {
             <p className="font-display text-xl text-ink text-center">
               Leave a review
             </p>
-            <p className="mt-1.5 text-[13px] text-ink/55 text-center">
+            <p className="mt-1.5 text-[13px] text-ink/62 text-center">
               Visited Aurora recently? We&rsquo;d love to hear about it —
               your review appears here right away.
             </p>
@@ -230,7 +230,7 @@ export default function Testimonials() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block">
-                    <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+                    <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
                       Name
                     </span>
                     <input
@@ -244,7 +244,7 @@ export default function Testimonials() {
                     )}
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+                    <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
                       Role / Visit (optional)
                     </span>
                     <input
@@ -257,7 +257,7 @@ export default function Testimonials() {
                 </div>
 
                 <div>
-                  <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+                  <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
                     Rating
                   </span>
                   <StarPicker value={rating} onChange={setRating} />
@@ -267,7 +267,7 @@ export default function Testimonials() {
                 </div>
 
                 <label className="block">
-                  <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+                  <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
                     Your review
                   </span>
                   <textarea

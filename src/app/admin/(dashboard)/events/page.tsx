@@ -13,7 +13,7 @@ export default async function AdminEventsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl text-ink">Events</h1>
-        <p className="mt-1 text-[14px] text-ink/55">
+        <p className="mt-1 text-[14px] text-ink/62">
           Add, edit, or remove events shown on the site — each gets a live countdown.
         </p>
       </div>
@@ -25,7 +25,7 @@ export default async function AdminEventsPage() {
 
       <section className="space-y-4">
         {events.length === 0 ? (
-          <p className="text-[14px] text-ink/50">No events yet.</p>
+          <p className="text-[14px] text-ink/62">No events yet.</p>
         ) : (
           events.map((event) => <EventRow key={event.id} event={event} />)
         )}

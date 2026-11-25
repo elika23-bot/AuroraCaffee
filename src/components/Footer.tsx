@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[11px] uppercase tracking-[0.14em] text-cream/45 mb-3">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-cream/55 mb-3">
               Explore
             </p>
             <ul className="space-y-2 text-[14px] text-cream/75">
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[11px] uppercase tracking-[0.14em] text-cream/45 mb-3">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-cream/55 mb-3">
               Follow
             </p>
             <ul className="space-y-2 text-[14px] text-cream/75">
@@ -56,10 +56,19 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-cream/10">
-        <div className="mx-auto max-w-6xl px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] uppercase tracking-[0.14em] text-cream/45">
+        <div className="mx-auto max-w-6xl px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] uppercase tracking-[0.14em] text-cream/55">
           <span>Aurora Cafe — Rise With The Sun</span>
           <span>1700 Christian Street · Philadelphia, PA 19146</span>
           <span>&copy; {new Date().getFullYear()} Aurora Cafe</span>
+        </div>
+        <div className="mx-auto max-w-6xl px-6 pb-5 flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.14em] text-cream/55">
+          <a href="/privacy" className="hover:text-rust transition-colors">
+            Privacy
+          </a>
+          <span className="text-cream/20">·</span>
+          <a href="/refund-policy" className="hover:text-rust transition-colors">
+            Refund Policy
+          </a>
         </div>
       </div>
     </footer>

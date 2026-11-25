@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { type CafeEvent, type EventInput, parseEventStart } from "./eventTime";
+import { backupBeforeWrite } from "./dataBackup";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "events.json");
@@ -58,6 +59,7 @@ async function readAll(): Promise<CafeEvent[]> {
 
 async function writeAll(events: CafeEvent[]): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
+  await backupBeforeWrite(DATA_FILE);
   await fs.writeFile(DATA_FILE, JSON.stringify(events, null, 2), "utf-8");
 }
 

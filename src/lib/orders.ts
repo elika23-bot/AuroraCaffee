@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { backupBeforeWrite } from "./dataBackup";
 
 export type OrderItem = { name: string; quantity: number; amountTotalCents: number };
 
@@ -9,8 +10,11 @@ export type Order = {
   totalCents: number;
   pickupName: string | null;
   customerEmail: string | null;
-  status: "paid";
+  status: "paid" | "refunded";
   createdAt: string;
+  /** Stripe PaymentIntent id, needed to issue a refund. Optional because
+   *  orders saved before this field existed won't have it. */
+  paymentIntentId?: string | null;
 };
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -40,7 +44,23 @@ export async function saveOrder(order: Order): Promise<void> {
   const all = await readAll();
   if (all.some((o) => o.id === order.id)) return;
   all.push(order);
+  await backupBeforeWrite(DATA_FILE);
   await fs.writeFile(DATA_FILE, JSON.stringify(all, null, 2), "utf-8");
+}
+
+export async function getOrder(id: string): Promise<Order | null> {
+  const all = await readAll();
+  return all.find((o) => o.id === id) ?? null;
+}
+
+export async function markOrderRefunded(id: string): Promise<Order | null> {
+  const all = await readAll();
+  const index = all.findIndex((o) => o.id === id);
+  if (index === -1) return null;
+  all[index] = { ...all[index], status: "refunded" };
+  await backupBeforeWrite(DATA_FILE);
+  await fs.writeFile(DATA_FILE, JSON.stringify(all, null, 2), "utf-8");
+  return all[index];
 }
 
 export type HourBucket = { hour: number; count: number; totalCents: number };
@@ -60,8 +80,10 @@ const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /** Pure function (no I/O) so it's easy to reason about and test against
  *  whatever order list is passed in — timing breakdowns are in the
- *  server's local time, matching how the cafe actually operates. */
-export function summarizeOrders(orders: Order[]): SalesSummary {
+ *  server's local time, matching how the cafe actually operates. Refunded
+ *  orders are excluded: that money isn't revenue anymore. */
+export function summarizeOrders(allOrders: Order[]): SalesSummary {
+  const orders = allOrders.filter((o) => o.status === "paid");
   const orderCount = orders.length;
   const totalCents = orders.reduce((sum, o) => sum + o.totalCents, 0);
   const averageOrderCents = orderCount > 0 ? Math.round(totalCents / orderCount) : 0;

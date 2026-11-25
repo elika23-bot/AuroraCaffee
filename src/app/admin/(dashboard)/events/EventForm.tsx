@@ -94,7 +94,7 @@ export default function EventForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
             Title
           </span>
           <input
@@ -107,7 +107,7 @@ export default function EventForm({
           )}
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
             Category
           </span>
           <input
@@ -124,7 +124,7 @@ export default function EventForm({
 
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
             Date
           </span>
           <input
@@ -138,7 +138,7 @@ export default function EventForm({
           )}
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
             Start Time
           </span>
           <input
@@ -152,7 +152,7 @@ export default function EventForm({
           )}
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+          <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
             End Time
           </span>
           <input
@@ -168,7 +168,7 @@ export default function EventForm({
       </div>
 
       <label className="block">
-        <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/50">
+        <span className="mb-1.5 block text-[11px] uppercase tracking-[0.1em] text-ink/62">
           Description
         </span>
         <textarea
@@ -198,7 +198,7 @@ export default function EventForm({
           <button
             type="button"
             onClick={onDone}
-            className="text-[13px] uppercase tracking-[0.1em] text-ink/50 hover:text-ink"
+            className="text-[13px] uppercase tracking-[0.1em] text-ink/62 hover:text-ink"
           >
             Cancel
           </button>

@@ -31,7 +31,7 @@ export default function Visit() {
 
             <div className="mt-10 space-y-8 max-w-sm">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/45 mb-2">
+                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/55 mb-2">
                   Address
                 </p>
                 <a
@@ -47,7 +47,7 @@ export default function Visit() {
               </div>
 
               <div>
-                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/45 mb-2">
+                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/55 mb-2">
                   Hours
                 </p>
                 <dl className="space-y-1.5">
@@ -64,7 +64,7 @@ export default function Visit() {
               </div>
 
               <div>
-                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/45 mb-2">
+                <p className="text-[11px] uppercase tracking-[0.14em] text-cream/55 mb-2">
                   Contact
                 </p>
                 <p className="text-[14.5px] space-x-1">

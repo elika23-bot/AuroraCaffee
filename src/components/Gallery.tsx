@@ -100,7 +100,7 @@ export default function Gallery() {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-[12px] text-ink/40">
+        <p className="mt-6 text-center text-[12px] text-ink/62">
           <span className="rounded-full bg-paper/90 px-3 py-1">
             Real corners of the cafe — new photos added seasonally.
           </span>

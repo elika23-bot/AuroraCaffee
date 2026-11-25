@@ -49,7 +49,7 @@ export default function Story() {
                     <dd className="font-display text-3xl sm:text-4xl text-maroon">
                       {s.value}
                     </dd>
-                    <dd className="mt-1 text-[11px] uppercase tracking-[0.12em] text-ink/50">
+                    <dd className="mt-1 text-[11px] uppercase tracking-[0.12em] text-ink/62">
                       {s.label}
                     </dd>
                   </div>
@@ -71,13 +71,13 @@ export default function Story() {
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <span className="text-[11px] uppercase tracking-[0.14em] text-ink/35">
+                    <span className="text-[11px] uppercase tracking-[0.14em] text-ink/62">
                       Photo coming soon
                     </span>
                   </div>
                 )}
               </div>
-              <p className="page-mark mt-4 text-center text-ink/40">
+              <p className="page-mark mt-4 text-center text-ink/62">
                 <span className="rounded-full bg-paper/90 px-3 py-1">
                   Aurora House Blend — Roasted Weekly
                 </span>

@@ -38,7 +38,7 @@ export default async function Events() {
 
         {events.length === 0 ? (
           <div className="mt-14 flex justify-center">
-            <p className="max-w-sm rounded-2xl bg-paper/90 px-6 py-4 text-center text-[14.5px] text-ink/55">
+            <p className="max-w-sm rounded-2xl bg-paper/90 px-6 py-4 text-center text-[14.5px] text-ink/62">
               Nothing on the calendar right now — check back soon.
             </p>
           </div>
@@ -68,7 +68,7 @@ export default async function Events() {
                         {event.category}
                       </span>
                     </div>
-                    <p className="mt-1 text-[12px] uppercase tracking-[0.1em] text-ink/45">
+                    <p className="mt-1 text-[12px] uppercase tracking-[0.1em] text-ink/62">
                       {formatTimeRange(event.startTime, event.endTime)}
                     </p>
                     <p className="mt-2 text-[14.5px] leading-relaxed text-ink/70">

@@ -47,12 +47,12 @@ export default function EventRow({ event }: { event: CafeEvent }) {
             {event.category}
           </span>
           {isPast && (
-            <span className="rounded-full bg-ink/10 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-ink/50">
+            <span className="rounded-full bg-ink/10 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.1em] text-ink/62">
               Past
             </span>
           )}
         </div>
-        <p className="mt-1 text-[13px] text-ink/55">
+        <p className="mt-1 text-[13px] text-ink/62">
           {event.date} · {formatTimeRange(event.startTime, event.endTime)}
         </p>
         <p className="mt-2 text-[13.5px] text-ink/70">{event.description}</p>

@@ -8,11 +8,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import { findMenuItem } from "@/lib/menu";
+import type { MenuItem } from "@/lib/menuTypes";
 
 export type CartLine = { id: string; quantity: number };
 
 type CartContextValue = {
+  menu: MenuItem[];
   lines: CartLine[];
   itemCount: number;
   subtotalCents: number;
@@ -45,7 +46,13 @@ function readStoredLines(): CartLine[] {
   }
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({
+  menu,
+  children,
+}: {
+  menu: MenuItem[];
+  children: React.ReactNode;
+}) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -65,17 +72,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
 
-  const addItem = useCallback((id: string) => {
-    if (!findMenuItem(id)) return;
-    setLines((prev) => {
-      const existing = prev.find((l) => l.id === id);
-      if (existing) {
-        return prev.map((l) => (l.id === id ? { ...l, quantity: l.quantity + 1 } : l));
-      }
-      return [...prev, { id, quantity: 1 }];
-    });
-    setIsOpen(true);
-  }, []);
+  const addItem = useCallback(
+    (id: string) => {
+      if (!menu.some((item) => item.id === id)) return;
+      setLines((prev) => {
+        const existing = prev.find((l) => l.id === id);
+        if (existing) {
+          return prev.map((l) => (l.id === id ? { ...l, quantity: l.quantity + 1 } : l));
+        }
+        return [...prev, { id, quantity: 1 }];
+      });
+      setIsOpen(true);
+    },
+    [menu]
+  );
 
   const removeItem = useCallback((id: string) => {
     setLines((prev) => prev.filter((l) => l.id !== id));
@@ -94,16 +104,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     let count = 0;
     let subtotal = 0;
     for (const line of lines) {
-      const item = findMenuItem(line.id);
+      const item = menu.find((i) => i.id === line.id);
       if (!item) continue;
       count += line.quantity;
       subtotal += item.priceCents * line.quantity;
     }
     return { itemCount: count, subtotalCents: subtotal };
-  }, [lines]);
+  }, [lines, menu]);
 
   const value = useMemo<CartContextValue>(
     () => ({
+      menu,
       lines,
       itemCount,
       subtotalCents,
@@ -115,7 +126,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       open: () => setIsOpen(true),
       close: () => setIsOpen(false),
     }),
-    [lines, itemCount, subtotalCents, addItem, removeItem, setQuantity, clear, isOpen]
+    [menu, lines, itemCount, subtotalCents, addItem, removeItem, setQuantity, clear, isOpen]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
