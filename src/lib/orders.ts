@@ -42,3 +42,63 @@ export async function saveOrder(order: Order): Promise<void> {
   all.push(order);
   await fs.writeFile(DATA_FILE, JSON.stringify(all, null, 2), "utf-8");
 }
+
+export type HourBucket = { hour: number; count: number; totalCents: number };
+export type WeekdayBucket = { weekday: number; label: string; count: number; totalCents: number };
+
+export type SalesSummary = {
+  orderCount: number;
+  totalCents: number;
+  averageOrderCents: number;
+  todayCount: number;
+  todayCents: number;
+  byHour: HourBucket[];
+  byWeekday: WeekdayBucket[];
+};
+
+const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+/** Pure function (no I/O) so it's easy to reason about and test against
+ *  whatever order list is passed in — timing breakdowns are in the
+ *  server's local time, matching how the cafe actually operates. */
+export function summarizeOrders(orders: Order[]): SalesSummary {
+  const orderCount = orders.length;
+  const totalCents = orders.reduce((sum, o) => sum + o.totalCents, 0);
+  const averageOrderCents = orderCount > 0 ? Math.round(totalCents / orderCount) : 0;
+
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  let todayCount = 0;
+  let todayCents = 0;
+
+  const byHour: HourBucket[] = Array.from({ length: 24 }, (_, hour) => ({
+    hour,
+    count: 0,
+    totalCents: 0,
+  }));
+  const byWeekday: WeekdayBucket[] = Array.from({ length: 7 }, (_, weekday) => ({
+    weekday,
+    label: WEEKDAY_LABELS[weekday],
+    count: 0,
+    totalCents: 0,
+  }));
+
+  for (const order of orders) {
+    const created = new Date(order.createdAt);
+    if (Number.isNaN(created.getTime())) continue;
+
+    if (created >= startOfToday) {
+      todayCount += 1;
+      todayCents += order.totalCents;
+    }
+
+    byHour[created.getHours()].count += 1;
+    byHour[created.getHours()].totalCents += order.totalCents;
+
+    byWeekday[created.getDay()].count += 1;
+    byWeekday[created.getDay()].totalCents += order.totalCents;
+  }
+
+  return { orderCount, totalCents, averageOrderCents, todayCount, todayCents, byHour, byWeekday };
+}

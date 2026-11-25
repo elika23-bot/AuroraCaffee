@@ -11,6 +11,11 @@ import ScrollMotion from "@/components/ScrollMotion";
 import WinterDecor from "@/components/WinterDecor";
 import { imageExists } from "@/lib/images";
 
+// Events reads live data straight from disk on the server (not a client
+// fetch) — without this, a static build would freeze the events list (and
+// admin-added events/countdowns) at whatever existed at build time.
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   const hasLogo = imageExists("/images/logo.png");
 

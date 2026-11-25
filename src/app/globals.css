@@ -122,6 +122,24 @@ body {
 .hero-intro > :nth-child(3) { animation-delay: 0.36s; }
 .hero-intro > :nth-child(4) { animation-delay: 0.5s; }
 
+/* Flip-clock countdown tiles (components/Countdown.tsx): a quick rotateX
+   flip whenever a tile's value ticks over, echoing a mechanical flip clock. */
+@keyframes flip-tick {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+.animate-flip-tick {
+  animation: flip-tick 0.32s ease-in-out;
+  backface-visibility: hidden;
+}
+
 /* Thin reading-progress bar along the very top of the window */
 .scroll-progress {
   position: fixed;

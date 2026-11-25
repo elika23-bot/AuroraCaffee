@@ -1,4 +1,6 @@
-import { getUpcomingEvents, parseEventDate } from "@/lib/events";
+import { getUpcomingEvents } from "@/lib/events";
+import { parseEventStart, formatTimeRange } from "@/lib/eventTime";
+import Countdown from "./Countdown";
 
 const MONTHS = [
   "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
@@ -6,8 +8,8 @@ const MONTHS = [
 ];
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function formatDate(dateStr: string) {
-  const d = parseEventDate(dateStr);
+function formatDate(dateStr: string, startTime: string) {
+  const d = parseEventStart(dateStr, startTime);
   return {
     day: String(d.getDate()).padStart(2, "0"),
     month: MONTHS[d.getMonth()],
@@ -43,7 +45,7 @@ export default async function Events() {
         ) : (
           <ul className="mt-14 space-y-5">
             {events.map((event) => {
-              const { day, month, weekday } = formatDate(event.date);
+              const { day, month, weekday } = formatDate(event.date, event.startTime);
               return (
                 <li
                   key={event.id}
@@ -67,11 +69,16 @@ export default async function Events() {
                       </span>
                     </div>
                     <p className="mt-1 text-[12px] uppercase tracking-[0.1em] text-ink/45">
-                      {event.time}
+                      {formatTimeRange(event.startTime, event.endTime)}
                     </p>
                     <p className="mt-2 text-[14.5px] leading-relaxed text-ink/70">
                       {event.description}
                     </p>
+                    <Countdown
+                      target={parseEventStart(event.date, event.startTime).toISOString()}
+                      completedLabel="Happening now"
+                      className="mt-3"
+                    />
                   </div>
                 </li>
               );
